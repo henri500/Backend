@@ -1,0 +1,24 @@
+{
+  "name": "cw_backend",
+  "version": "1.0.0",
+  "description": "nodedja back end",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.coventry.ac.uk/demanouh/CW_backend.git"
+  },
+  "author": "demanouh",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "email-validator": "^2.0.4",
+    "jsonschema": "^1.4.0",
+    "koa": "^2.13.1",
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^10.0.0",
+    "promise-mysql": "^5.0.2"
+  }
+}
