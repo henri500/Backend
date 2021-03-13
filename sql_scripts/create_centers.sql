@@ -1,8 +1,8 @@
 CREATE TABLE centers(
     ID INT  NOT NULL AUTO_INCREMENT,
-    centerName VARCHAR(264),
-    centerAddress VARCHAR(264),
-    centerPostode VARCHAR(10),
+    centerName VARCHAR(264) NOT NULL,
+    centerAddress VARCHAR(264) UNIQUE NOT NULL,
+    centerPostode VARCHAR(10) UNIQUE NOT NULL,
     PRIMARY key (ID),
     FOREIGN KEY (centerID) REFERENCES users(ID)
 );

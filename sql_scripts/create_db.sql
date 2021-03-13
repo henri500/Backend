@@ -2,9 +2,9 @@ CREATE DATABASE IF NOT EXISTS DB_project;
 
 CREATE TABLE centers(
     ID INT  NOT NULL AUTO_INCREMENT,
-    centerName VARCHAR(264) ,
-    centerAddress VARCHAR(264) NOT NULL ,
-    centerPostcode VARCHAR(10) NOT NULL ,
+    centerName VARCHAR(264) NOT NULL,
+    centerAddress VARCHAR(264) UNIQUE NOT NULL,
+    centerPostode VARCHAR(12) UNIQUE NOT NULL,
     PRIMARY key (ID)
 );
 INSERT INTO centers (centerName,centerAddress,centerPostcode) VALUES 
