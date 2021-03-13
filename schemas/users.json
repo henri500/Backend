@@ -1,0 +1,161 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "user": {
+            "$id":"#user",
+            "title":"User",
+            "description": "Data and format required to add new user to the Database.",
+            "type":"object",
+            "properties": {
+                "firstName":{
+                "description": "First name",
+                "type":"string",
+                "maxLength":32
+                },
+                "lastName":{
+                    "description": "Last name",
+                    "type":"string",
+                    "maxLength":32
+                },
+                "username":{
+                    "description": "username",
+                    "type":"string",
+                    "minLength": 3,
+                    "maxLength":16   
+                },
+                "about":{
+                    "description": "A little summary about the user",
+                    "type":"string",
+                    "maxLength":250
+                },
+                "passwordHash":{
+                    "description": "Password provided by user. But hashing is done server-side",
+                    "type":"string",
+                    "minLength":8
+                },
+                "email":{
+                    "description": "Email",
+                    "type":"string",
+                    "format": "email"
+                },
+                "code":{
+                    "description": "Signup code for employees if ",
+                    "default": "null",
+                    "type":"string"
+                },
+                "avartarURL":{
+                    "description": "image URL",
+                    "type":"string",
+                    "format": "uri",
+                    "default":"null"
+                }
+            },
+            "required":["firstName","lastName","username","about","passwordHash","email"],
+            "additionalProperties":false
+        },
+        "userUpdate":{
+            "$id": "#userUpdate",
+            "title": "User Update",
+            "description": " Data user can edit excluding username",
+            "type":"object",
+            "properties": {
+                "firstName":{
+                    "description": "First name",
+                    "type":"string",
+                    "maxLength":32
+                },
+                "lastName":{
+                    "description": "Last name",
+                    "type":"string",
+                    "maxLength":32
+                },
+                "passwordHash":{
+                    "description": "Password provided by user. But hashing is done server-side",
+                    "type":"string",
+                    "minLength":8
+                },
+                "about":{
+                    "description": "A little summary about the user",
+                    "type":"string",
+                    "maxLength":250
+                },
+                "email":{
+                    "description": "Email",
+                    "type":"string",
+                    "format": "email"
+                },
+                "avatarURL":{
+                    "description": "image URL",
+                    "type":"string",
+                    "format": "uri",
+                    "default":"null"
+                }
+            },
+            "additionalProperties":false
+        },
+        "userView":{
+            "$id": "#userView",
+            "title": "Userview",
+            "description": "What users/admins can see.",
+            "properties": {
+                "firstName":{
+                    "description": "First name",
+                    "type":"string"
+                },
+                "lastName":{
+                    "description": "Last name",
+                    "type":"string"
+
+                },
+                "username":{
+                    "description": "username",
+                    "type":"string"
+                },
+                "about":{
+                    "description": "A little summary about the user",
+                    "type":"string"
+                },
+                "email":{
+                    "description": "Email",
+                    "type":"string"
+                },
+                "avartarURL":{
+                    "description": "image URL",
+                    "type":"string"
+                }
+            }    
+        },
+        "userDeleted": {
+            "$id": "#userDeleted",
+            "title": "User Deleted",
+            "description": "Confirmation of a successful deletion",
+            "type": "object",
+            "properties": {
+              "ID": {
+                "description": "ID of record to be deleted",
+                "type": "integer"
+              },
+              "deleted": {
+                "description": " indicator of success",
+                "type": "boolean"
+              }
+            }
+        },
+        "userUpdated": {
+            "$id": "#userUpdate",
+            "title": "User Updated",
+            "description": "Confirmation of a successful update",
+            "type": "object",
+            "properties": {
+              "ID": {
+                "description": "ID of record to be updated",
+                "type": "integer"
+              },
+              "updated": {
+                "description": "indicator of success",
+                "type": "boolean"
+              }
+            }
+        }
+    }
+}

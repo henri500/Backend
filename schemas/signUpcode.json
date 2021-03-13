@@ -1,0 +1,38 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "signUpcode": {
+            "$id": "#signUpcode",
+            "title": " Sign-up code generation initaiated by admin only",
+            "type":"object",
+            "properties": {
+                "code":{
+                "description":"Sign-up code provided by admin.",
+                "type":"string"
+                },
+                "centerAssigned":{
+                "description":"Center the worker/eployee using the code will be assigned to.",
+                "type":"integer"
+                }
+            },
+            "required": ["code","centerAssigned"],
+            "additionalProperties":false
+            
+        },
+        "deletedCode":{
+            "$id": "#deletedCode",
+            "title": "Deleted signe-up codes.",
+            "type":"object",
+            "properties": {
+                "code":{
+                "description":"code that was deleted",
+                "type":"string"
+                },
+                "deleted":{
+                    "description": "Message for success of deletion",
+                    "type":"boolean"
+                }         
+            }
+        }    
+    }
+}
