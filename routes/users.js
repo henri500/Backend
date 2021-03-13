@@ -1,16 +1,14 @@
 const Router = require('koa-router');
 const bodyParser = require('koa-bodyparser');
-//const { hash } = require('bcrypt');
 const router = Router({ prefix: '/api/users' });
-// importing model for user CRUD operations:
 const model = require('../models/users');
-
+const {validateUser,validateUpdate} = require('../controllers/validation');
 // routes :
 router.get('/',getAllUsers)
-router.post('/add',bodyParser(),addUser)
+router.post('/add',bodyParser(),validateUser,addUser)
 router.get('/:id([0-9]{1,})',getUser)
 router.del('/delete/:id([0-9]{1,})',deleteUser)
-router.put('/update/:id([0-9]{1,})',bodyParser(),updateUser)
+router.put('/update/:id([0-9]{1,})',bodyParser(),validateUpdate,updateUser)
 
 // list all user in DB
 async function getAllUsers(ctx){
@@ -21,7 +19,6 @@ async function getAllUsers(ctx){
         ctx.status= 403
     }
 }
-
 // create new user
 async function addUser(cnx) {
     let  user = cnx.request.body
@@ -38,13 +35,18 @@ async function addUser(cnx) {
             user.roleID='worker'
             // Adding user as worker of a charity
             const result = await model.addUser(user)
+            if (result == 0) {
+                cnx.status=406
+                cnx.body={Error:" User Already with that username and/or email already exist"}
+            }
             if (result.affectedRows) {
                 const id = result.insertId
                 cnx.status=201
                 cnx.body={ID:id,created:true,link:`/api/users/${id}`}
+                //removing signup code from db:
+                const deleteCode= await modelSignupCode.deleteCode(signUpCode)
             }
-            //removing signup code from db:
-            const deleteCode= await modelSignupCode.deleteCode(signUpCode)
+            
         }else{
             cnx.status=404
             cnx.body={signupCode:'Invalid'}
@@ -52,11 +54,15 @@ async function addUser(cnx) {
     }
     // register user as public user:
     let result =await model.addUser(user)
-        if (result.affectedRows) {
-            const id = result.insertId
-            cnx.status=201
-            cnx.body={ID:id,created:true,link:`/api/users/${id}`}
-        }
+    if (result.affectedRows) {
+        const id = result.insertId
+        cnx.status=201
+        cnx.body={ID:id,created:true,link:`/api/users/${id}`}
+    }
+    if (result == 0) {
+        cnx.status=406
+        cnx.body={Error:" User Already with that username and/or email already exist"}
+    }
 }
 
 //get get user by Id
@@ -73,11 +79,17 @@ async function getUser(cnx) {
 
 
 async function deleteUser(cnx) {
-    const userID = cnx.params.id
-    const deleted= await model.deleteUser(userID)
-    if (deleted.affectedRows) {
-        cnx.status=201
-        cnx.body={ID: userID, deleted: true}
+    if (cnx.params.id){
+        const userID = cnx.params.id
+        const deleted= await model.deleteUser(userID)
+        console.log(deleted)
+        if (deleted.affectedRows) {
+            cnx.status=200
+            cnx.body={ID: userID, deleted: true}
+        }else{
+            cnx.status=404
+            cnx.body={ID: userID, deleted: false}
+        }
     }
 }
 
@@ -89,11 +101,8 @@ async function updateUser(cnx) {
     if (user.length) {
         //console.log(user)
         cnx.request.body.ID=id
-        if (cnx.request.body.username) {
-            delete cnx.request.body.username 
-        }
         const updated = await model.updateUser(cnx.request.body)
-        console.log(cnx.request.body)
+
         if (updated.affectedRows) {
             cnx.status=200
             cnx.body={ID: id, updated: true}
