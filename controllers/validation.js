@@ -8,6 +8,7 @@
  const {Validator, ValidationError} = require('jsonschema');
 
  userSchema = require('../schemas/users.json').definitions.user
+ addAdminSchema =require('../schemas/users.json').definitions.addAmin
  userUpdate = require('../schemas/users.json').definitions.userUpdate
  signUpCodeCreateSchema=require('../schemas/signUpcode.json').definitions.signUpcode
  const makeKoaValidator = (schema, resource) => {
@@ -44,6 +45,8 @@
 
 /** Validate data against user schema for creating new users */
 exports.validateUser = makeKoaValidator(userSchema, 'user');
+/**Validate adding  user as admin */
+exports.ValidateAddAdmin= makeKoaValidator(addAdminSchema,'addAmin')
 /** Validate data against user schema for updating users */
 exports.validateUpdate = makeKoaValidator(userUpdate, 'userUpdate');
 /**Validate data againt sigup schema */
