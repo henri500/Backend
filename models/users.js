@@ -9,7 +9,7 @@ exports.getAll = async function getAll(page,limit,order) {
      * @param {string} order asc by default can be : asc or dsc 
      * @returns {object} data The data  return from the database query
      */
-    const query = "SELECT ID,firstName,lastName,username,email,avatarURL, roleID,centerID  FROM users;";
+    const query = "SELECT * FROM users;";
     const data = await db.run_query(query);
     return data;
 }
@@ -20,7 +20,7 @@ exports.getUserID =async function getUserID(id) {
      * @param {number} id The ID column/ primary for database query
      * @returns {object} user . User object retrieved from database
      */
-    const query = "SELECT  ID,firstName,lastName,username,email,avatarURL, roleID,centerID FROM users WHERE ID =?;"
+    const query = "SELECT * FROM users WHERE ID =?;"
     // const query = "SELECT * FROM users WHERE ID =?;"
     const user =  await db.run_query(query,id)
     return user

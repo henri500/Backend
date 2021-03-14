@@ -53,6 +53,47 @@
             "required":["firstName","lastName","username","about","passwordHash","email"],
             "additionalProperties":false
         },
+        "addAmin":{
+            "$id": "#addAdmin",
+            "title": "Adding Admin",
+            "description": "Adding a new admin",
+            "type":"object",
+            "properties": {
+                "firstName":{
+                    "description": "First name",
+                    "type":"string",
+                    "maxLength": 32
+                },
+                "lastName":{
+                    "description": "Last name",
+                    "type":"string",
+                    "maxLength":32
+                },
+                "username":{
+                    "description": "username",
+                    "type":"string",
+                    "minLength":3,
+                    "maxLength": 16
+                },
+                "about":{
+                    "description": "about user",
+                    "type":"string",
+                    "maxLength":250
+                    },
+                "passwordHash":{
+                    "type":"string",
+                    "description": "Password",
+                    "minLength":8
+                },
+                "email":{
+                    "description": "Email",
+                    "type":"string",
+                    "format": "email"
+                }
+            },
+            "required": ["firstName","lastName","username","about","passwordHash","email"],
+            "additionalProperties": false
+        },
         "userUpdate":{
             "$id": "#userUpdate",
             "title": "User Update",
