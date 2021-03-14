@@ -1,14 +1,16 @@
-const Router = require('koa-router');
-const bodyParser = require('koa-bodyparser');
-const router = Router({ prefix: '/api/users' });
-const model = require('../models/users');
-const {validateUser,validateUpdate} = require('../controllers/validation');
+const Router = require('koa-router')
+const bodyParser = require('koa-bodyparser')
+const router = Router({ prefix: '/api/users' })
+const auth = require('../controllers/auth')
+const model = require('../models/users')
+const {validateUser,validateUpdate,ValidateAddAdmin} = require('../controllers/validation')
 // routes :
-router.get('/',getAllUsers)
+router.get('/',auth,getAllUsers)
+router.post('/admin/add',bodyParser(),auth,ValidateAddAdmin,addAdmin)
 router.post('/add',bodyParser(),validateUser,addUser)
-router.get('/:id([0-9]{1,})',getUser)
-router.del('/delete/:id([0-9]{1,})',deleteUser)
-router.put('/update/:id([0-9]{1,})',bodyParser(),validateUpdate,updateUser)
+router.get('/:id([0-9]{1,})',auth,getUser)
+router.del('/delete/:id([0-9]{1,})',auth,deleteUser)
+router.put('/update/:id([0-9]{1,})',bodyParser(),auth,validateUpdate,updateUser)
 
 // list all user in DB
 async function getAllUsers(ctx){
@@ -19,7 +21,21 @@ async function getAllUsers(ctx){
         ctx.status= 403
     }
 }
-// create new user
+async function addAdmin(cnx) {
+    cnx.request.body.roleID='admin'
+    let user=cnx.request.body
+    const result = await model.addUser(user)
+    if (result == 0) {
+        cnx.status=406
+        cnx.body={Error:" User Already with that username and/or email already exist"}
+    }else if(result.affectedRows){
+        const id = result.insertId
+        cnx.status=201
+        cnx.body={ID:id,created:true,link:`/api/users/${id}`}
+    }
+    
+}
+// create new public/user
 async function addUser(cnx) {
     let  user = cnx.request.body
     //checking if user provides signup cod for employees
@@ -51,17 +67,18 @@ async function addUser(cnx) {
             cnx.status=404
             cnx.body={signupCode:'Invalid'}
         }
-    }
+    }else{
     // register user as public user:
-    let result =await model.addUser(user)
-    if (result.affectedRows) {
-        const id = result.insertId
-        cnx.status=201
-        cnx.body={ID:id,created:true,link:`/api/users/${id}`}
-    }
-    if (result == 0) {
-        cnx.status=406
-        cnx.body={Error:" User Already with that username and/or email already exist"}
+        let result =await model.addUser(user)
+        if (result.affectedRows) {
+            const id = result.insertId
+            cnx.status=201
+            cnx.body={ID:id,created:true,link:`/api/users/${id}`}
+        }
+        if (result == 0) {
+            cnx.status=406
+            cnx.body={Error:" User Already with that username and/or email already exist"}
+        }
     }
 }
 
@@ -109,4 +126,4 @@ async function updateUser(cnx) {
         }
     }
 }
-module.exports = router;
+module.exports = router
