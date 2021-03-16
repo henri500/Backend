@@ -9,6 +9,8 @@
 
  userSchema = require('../schemas/users.json').definitions.user
  addAdminSchema =require('../schemas/users.json').definitions.addAmin
+ addCenterSchema =require('../schemas/centers.json').definitions.addCenter
+ updateCenterSchema =require('../schemas/centers.json').definitions.updateCenter
  userUpdate = require('../schemas/users.json').definitions.userUpdate
  signUpCodeCreateSchema=require('../schemas/signUpcode.json').definitions.signUpcode
  const makeKoaValidator = (schema, resource) => {
@@ -51,3 +53,6 @@ exports.ValidateAddAdmin= makeKoaValidator(addAdminSchema,'addAmin')
 exports.validateUpdate = makeKoaValidator(userUpdate, 'userUpdate');
 /**Validate data againt sigup schema */
 exports.signUpCodeCreate = makeKoaValidator(signUpCodeCreateSchema, 'signUpcode');
+/**Validate data againt centers schema */
+exports.validateAddCenter = makeKoaValidator(addCenterSchema, 'addCenter');
+exports.validateUpdateCenter = makeKoaValidator(addCenterSchema, 'updateCenter');
