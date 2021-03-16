@@ -3,7 +3,7 @@
     "definitions": {
         "signUpcode": {
             "$id": "#signUpcode",
-            "title": " Sign-up code generation initaiated by admin only",
+            "title": " Sign-up code generation initiated by admin only",
             "type":"object",
             "properties": {
                 "code":{

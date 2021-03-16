@@ -4,7 +4,8 @@
   "description": "nodedja back end",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "doc": "jsdoc -c jsdoc.json"
   },
   "repository": {
     "type": "git",
@@ -15,12 +16,15 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "email-validator": "^2.0.4",
+    "jsdoc": "^3.6.6",
     "jsonschema": "^1.4.0",
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",
     "koa-passport": "^4.1.4",
     "koa-router": "^10.0.0",
+    "multer": "^1.4.2",
     "passport-http": "^0.3.0",
+    "path": "^0.12.7",
     "promise-mysql": "^5.0.2",
     "role-acl": "^4.5.4"
   }
