@@ -70,7 +70,7 @@ async function addUser(cnx) {
                 cnx.status=201
                 cnx.body={ID:id,created:true,link:`/api/users/${id}`}
                 //removing signup code from db:
-                const deleteCode= await modelSignupCode.deleteCode(signUpCode)
+                // const deleteCode= await modelSignupCode.deleteCode(signUpCode)
             }
             
         }else{
