@@ -14,18 +14,24 @@
   "author": "demanouh",
   "license": "ISC",
   "dependencies": {
+    "@koa/cors": "^3.1.0",
     "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
     "email-validator": "^2.0.4",
+    "fs": "^0.0.1-security",
     "jsdoc": "^3.6.6",
     "jsonschema": "^1.4.0",
     "koa": "^2.13.1",
+    "koa-body": "^4.2.0",
     "koa-bodyparser": "^4.3.0",
     "koa-passport": "^4.1.4",
     "koa-router": "^10.0.0",
+    "mime-types": "^2.1.28",
     "multer": "^1.4.2",
     "passport-http": "^0.3.0",
     "path": "^0.12.7",
     "promise-mysql": "^5.0.2",
-    "role-acl": "^4.5.4"
+    "role-acl": "^4.5.4",
+    "uuid": "^8.3.2"
   }
 }
