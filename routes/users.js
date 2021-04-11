@@ -1,12 +1,15 @@
 const Router = require('koa-router')
 const bodyParser = require('koa-bodyparser')
+const prefix = '/api/users'
 const router = Router({ prefix: '/api/users' })
+// const router = Router({prefix: prefix});
 const auth = require('../controllers/auth')
 const model = require('../models/users')
 const peut =require('../permissions/users')
 const {validateUser,validateUpdate,ValidateAddAdmin} = require('../controllers/validation')
 // routes :
 router.get('/',auth,getAllUsers)
+router.post('/login',auth,login)
 router.post('/admin/add',bodyParser(),auth,ValidateAddAdmin,addAdmin)
 router.post('/add',bodyParser(),validateUser,addUser)
 router.get('/:id([0-9]{1,})',auth,getUser)
@@ -20,6 +23,7 @@ async function getAllUsers(ctx){
     if (permission.granted){
         const userList= await model.getAll()
         if(userList.length){
+            ctx.status=200
             ctx.body=permission.filter(userList)
         }else{
             ctx.status= 403
@@ -27,6 +31,7 @@ async function getAllUsers(ctx){
     }else{ctx.status= 403}
 }
 async function addAdmin(cnx) {
+    console.log('Registering ....')
     const permission=peut.addAdmin(cnx.state.user)
     if(permission.granted){
         cnx.request.body.roleID='admin'
@@ -67,23 +72,26 @@ async function addUser(cnx) {
             }
             if (result.affectedRows) {
                 const id = result.insertId
-                cnx.status=201
-                cnx.body={ID:id,created:true,link:`/api/users/${id}`}
+                cnx.status=200
+//               `${ctx.protocol}://${ctx.host}${prefix}/${ID}`
+//                 cnx.body={ID:id,created:true,link:`/api/users/${id}`}
+                cnx.body= {links:`${cnx.protocol}://${cnx.host}${prefix}/${id}`}
                 //removing signup code from db:
-                const deleteCode= await modelSignupCode.deleteCode(signUpCode)
+                // const deleteCode= await modelSignupCode.deleteCode(signUpCode)
             }
+            console.log('User trying to register:')
             
         }else{
             cnx.status=404
-            cnx.body={signupCode:'Invalid'}
+            cnx.body={Error:'Invalid code'}
         }
     }else{
     // register user as public user:
         let result =await model.addUser(user)
         if (result.affectedRows) {
             const id = result.insertId
-            cnx.status=201
-            cnx.body={ID:id,created:true,link:`/api/users/${id}`}
+            cnx.status=200
+            cnx.body={ID:id,created:true,links:`${cnx.protocol}://${cnx.host}${prefix}/${id}`}
         }
         if (result == 0) {
             cnx.status=406
@@ -108,7 +116,7 @@ async function getUser(cnx) {
         }
     } else {
         cnx.status=404
-        cnx.body="User not found"
+        cnx.body={Error:'User not found'}
     }
 }
 
@@ -153,7 +161,7 @@ async function updateUser(cnx) {
             const updated = await model.updateUser(cnx.request.body)
             if (updated.affectedRows) {
                 cnx.status=200
-                cnx.body={ID: id, updated: true}
+                cnx.body={ID: id, updated: true,links:`${cnx.protocol}://${cnx.host}${prefix}/${id}`}
             }
         }else{
             cnx.status=403
@@ -163,6 +171,11 @@ async function updateUser(cnx) {
     }
 }
 
-
-
+async function login(ctx){
+    const {ID,username,email,avatarURL}=ctx.state.user
+    const links ={
+        self: `${ctx.protocol}://${ctx.host}${prefix}/${ID}`
+    }
+    ctx.body={ID, username, email, avatarURL, links}
+}
 module.exports = router

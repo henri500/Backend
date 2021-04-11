@@ -50,7 +50,7 @@
                     "default":"null"
                 }
             },
-            "required":["firstName","lastName","username","about","passwordHash","email"],
+            "required":["firstName","lastName","username","passwordHash","email"],
             "additionalProperties":false
         },
         "addAmin":{

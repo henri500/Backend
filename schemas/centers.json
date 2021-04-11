@@ -1,0 +1,61 @@
+{
+    "schema":"http://json-schema.org/draft-07/schema#",
+    "definitions":{
+        "addCenter":{
+            "$id":"#addCenter",
+            "title":" Adding a center/shelter to the API",
+            "type":"object",
+            "properties":{
+                "centerName":{
+                    "type":"string",
+                    "description":"Center/shelter name",
+                    "maxLenght":164
+                },
+                "centerAddress":{
+                    "type":"string",
+                    "description":"Number and street name",
+                    "maxLength":64
+                },
+                "centerPostcode":{
+                    "type":"string",
+                    "description":" Shelter/Center post code uk format",
+                    "maxLenght": 6,
+                    "minLenght":5
+                }
+            },
+            "required":["centerPostcode","centerAddress","centerName"],
+            "additionalProperties":false
+        },
+        "updateCenter":{
+            "$id":"#updateCenter",
+            "title":" Updating center/shelter  API",
+            "type":"object",
+            "properties":{
+                "centerName":{
+                    "type":"string",
+                    "description":"Center/shelter name",
+                    "maxLenght":164
+                },
+                "centerAddress":{
+                    "type":"string",
+                    "description":"Number and street name",
+                    "maxLength":64
+                },
+                "centerPostcode":{
+                    "type":"string",
+                    "description":" Shelter/Center post code uk format",
+                    "maxLenght": 6,
+                    "minLenght":5
+                }
+            },
+            "additionalProperties":false
+        }
+    }
+
+
+
+
+
+
+
+}
