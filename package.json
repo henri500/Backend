@@ -19,7 +19,7 @@
     "cors": "^2.8.5",
     "email-validator": "^2.0.4",
     "fs": "^0.0.1-security",
-    "jsdoc": "^3.6.6",
+    "jsdoc": "^3.6.10",
     "jsonschema": "^1.4.0",
     "koa": "^2.13.1",
     "koa-body": "^4.2.0",
