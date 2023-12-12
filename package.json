@@ -14,7 +14,7 @@
   "author": "demanouh",
   "license": "ISC",
   "dependencies": {
-    "@koa/cors": "^3.1.0",
+    "@koa/cors": "^5.0.0",
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "email-validator": "^2.0.4",
